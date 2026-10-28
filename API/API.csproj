@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>APITest</RootNamespace>
+    <UserSecretsId>API-dev</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core\WebApi.Core.Application\WebApi.Core.Application.csproj" />
+    <ProjectReference Include="..\infras\WebApi.Infrastructure.Repositories\WebApi.Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\infras\WebApi.Infrastructure.Integrations\WebApi.Infrastructure.Integrations.csproj" />
+    <ProjectReference Include="..\infras\WebApi.Infrastructure.Shared\WebApi.Infrastructure.Shared.csproj" />
+  </ItemGroup>
+</Project>
