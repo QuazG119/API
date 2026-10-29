@@ -15,6 +15,7 @@ public class Response<T>
         Message = message,
         Data = data
     };
+
     public static Response<T> Fail(string message, int code = 400, IEnumerable<string>? errors = null) => new()
     {
         Succeeded = false,
