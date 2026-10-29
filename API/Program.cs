@@ -8,20 +8,18 @@ using WebApi.Infrastructure.Integrations;
 using WebApi.Infrastructure.Repositories;
 using WebApi.Infrastructure.Shared;
 
-// b1. Tạo builder.
 var builder = WebApplication.CreateBuilder(args);
 
-// b2. Nạp cấu hình theo môi trường.
-// Mặc định host đã đọc appsettings.json, appsettings.{Env}.json, User Secrets (Development),
-// biến môi trường và command line. Ngoài Localhost, đọc thêm file secret do Vault inject.
-if (!builder.Environment.IsEnvironment("Localhost"))
+if (builder.Environment.IsEnvironment("Localhost"))
+{
+    builder.Configuration.AddUserSecrets<Program>(optional: true);
+}
+else
 {
     builder.Configuration.AddJsonFile("/vault/secrets/appsettings.json", optional: true, reloadOnChange: true);
-    builder.Configuration.AddEnvironmentVariables(); // giữ ưu tiên biến môi trường
+    builder.Configuration.AddEnvironmentVariables();
     builder.Configuration.AddCommandLine(args);
 }
-
-// b3. MVC controllers, JSON, logging, cache, HttpContextAccessor.
 builder.Services
     .AddControllers()
     .AddJsonOptions(o =>
@@ -31,15 +29,14 @@ builder.Services
     });
 builder.Logging.AddConsole();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSharedServices();   // MemoryCache + ICacheService
+builder.Services.AddSharedServices();
 
-// b4. Đăng ký từng nhóm dịch vụ.
 var configuration = builder.Configuration;
-builder.Services.AddServices(configuration);                    // versioning, swagger, health check
-builder.Services.AddRegisterIntegrationServices(configuration); // HttpClientFactory
-builder.Services.AddRegisterRepositories(configuration);        // Oracle + Dapper
-builder.Services.AddCoreApplication(configuration);             // MediatR + FluentValidation
-// b5. Build, dựng pipeline, map controllers.
+builder.Services.AddServices(configuration);
+builder.Services.AddRegisterIntegrationServices(configuration);
+builder.Services.AddRegisterRepositories(configuration);
+builder.Services.AddCoreApplication(configuration);
+
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseSwagger();

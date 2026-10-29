@@ -19,7 +19,6 @@ public class GetExternalPostQueryRequest : IRequest<Response<ExternalPostDto>>
             RuleFor(x => x.Id).GreaterThan(0);
         }
     }
-
     public class Handler : IRequestHandler<GetExternalPostQueryRequest, Response<ExternalPostDto>>
     {
         private readonly IExternalPostService service;
@@ -30,7 +29,6 @@ public class GetExternalPostQueryRequest : IRequest<Response<ExternalPostDto>>
             this.service = service;
             this.cache = cache;
         }
-
         public async Task<Response<ExternalPostDto>> Handle(
             GetExternalPostQueryRequest request, CancellationToken cancellationToken)
         {

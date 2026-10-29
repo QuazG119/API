@@ -9,6 +9,5 @@ public enum DbConnectionType
 
 public interface IConnection
 {
-    /// <summary>Tạo IDbConnection mới (chưa mở). Người gọi chịu trách nhiệm Dispose.</summary>
     IDbConnection DbConnection(DbConnectionType type, string connectionName);
 }
